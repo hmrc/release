@@ -1,18 +1,18 @@
-#
+#!/usr/bin/env python
 #  Copyright 2015 HM Revenue & Customs
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-#  
+#
 
 import argparse
 import os
@@ -31,10 +31,27 @@ parser.add_argument('buildNumber', type=str, help='The jenkins build number we w
 args = parser.parse_args()
 
 WORKSPACE = expanduser("~/.release")
+RELEASE_CONF=os.path.expanduser("~/.hmrc_release_conf.json")
 
 if os.path.exists(WORKSPACE):
     shutil.rmtree(WORKSPACE)
 os.mkdir(WORKSPACE)
+
+#def release_config():
+#    out = {}
+#    if os.path.exists(RELEASE_CONF):
+#        try:
+#            out.update(json.loads(RELEASE_CONF))
+#        except RuntimeError, ex:
+#            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg))
+#
+#    else:
+#        try:
+#            hosts_json = lib.open_as_json('conf/hosts.json')
+#            out.update(json.loads(RELEASE_CONF))
+#        except RuntimeError, ex:
+#            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg)
+
 
 hosts_json = lib.open_as_json('conf/hosts.json')
 jenkins = Jenkins(hosts_json['jenkins'])
@@ -42,7 +59,7 @@ jenkins = Jenkins(hosts_json['jenkins'])
 
 def verbose(message):
     if args.verbose:
-        print message
+        print(message)
 
 
 def run():
@@ -50,7 +67,7 @@ def run():
     jenkins_build_number = args.buildNumber
 
     if not jenkins.find_if_build_is_green(jenkins_project, jenkins_build_number):
-        print "Build #" + jenkins_build_number + " of '" + jenkins_project + "' is not a green build."
+        print("Build #" + jenkins_build_number + " of '" + jenkins_project + "' is not a green build.")
         sys.exit(1)
 
     repo_url = jenkins.find_github_repo_url_from_build(jenkins_project)
@@ -66,7 +83,7 @@ def run():
     git.clone()
     verbose("Git repo '" + repo_name + "' cloned to " + WORKSPACE)
 
-    most_recent_tag = git.describe()
+    most_recent_tag = git.describe(commit_id)
     verbose("Most recent release: " + most_recent_tag)
 
     new_version_number = lib.read_user_preferred_version(repo_name, most_recent_tag)

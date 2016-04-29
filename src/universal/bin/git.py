@@ -1,18 +1,18 @@
 #
 #  Copyright 2015 HM Revenue & Customs
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-#  
+#
 #!/usr/bin/env python
 
 import os
@@ -52,10 +52,10 @@ class Git:
         lib.call_and_exit_if_failed('git checkout -q ' + branch)
         lib.call_and_exit_if_failed('git pull -q origin ' + branch)
 
-    def describe(self):
+    def describe(self, ref):
         path = self.path()
         os.chdir(path)
-        tag_query = lib.call('git describe --abbrev=0 --match release/*')
+        tag_query = lib.call('git describe --abbrev=0 --match release/* %s' % ref)
         last_tag = "0.0.0"
         if tag_query.returncode == 0:
             last_tag = tag_query.stdout.read().strip()
