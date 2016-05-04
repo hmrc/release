@@ -16,6 +16,7 @@
 
 import argparse
 import os
+import json
 import lib
 import sys
 from os.path import expanduser
@@ -31,30 +32,38 @@ parser.add_argument('buildNumber', type=str, help='The jenkins build number we w
 args = parser.parse_args()
 
 WORKSPACE = expanduser("~/.release")
-RELEASE_CONF=os.path.expanduser("~/.hmrc_release_conf.json")
+RELEASE_CONF=os.path.expanduser("~/.hmrc/release.conf")
 
 if os.path.exists(WORKSPACE):
     shutil.rmtree(WORKSPACE)
 os.mkdir(WORKSPACE)
 
-#def release_config():
-#    out = {}
-#    if os.path.exists(RELEASE_CONF):
-#        try:
-#            out.update(json.loads(RELEASE_CONF))
-#        except RuntimeError, ex:
-#            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg))
-#
-#    else:
-#        try:
-#            hosts_json = lib.open_as_json('conf/hosts.json')
-#            out.update(json.loads(RELEASE_CONF))
-#        except RuntimeError, ex:
-#            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg)
+def release_config():
+    out = {}
+    if os.path.exists(RELEASE_CONF):
+        try:
+            out.update(json.load(open(RELEASE_CONF)))
+        except RuntimeError, ex:
+            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg))
+
+    else:
+        try:
+            hosts_json = lib.open_as_json('conf/hosts.json')
+            out.update(json.loads(RELEASE_CONF))
+        except RuntimeError, ex:
+            print("Config file %s is probably not valid JSON: %s" % (RELEASE_CONF, ex.msg))
+
+    return out
 
 
-hosts_json = lib.open_as_json('conf/hosts.json')
-jenkins = Jenkins(hosts_json['jenkins'])
+hosts_json = release_config()
+jenkins_host = hosts_json['jenkins']
+jenkins_user = hosts_json.get('jenkins_user', os.environ.get("jenkins_user", None))
+jenkins_key = hosts_json.get('jenkins_key', os.environ.get("jenkins_key", None))
+
+print("Jenkins User: %s; Jenkins Token: %s" % (jenkins_user, jenkins_key))
+
+jenkins = Jenkins(jenkins_host, jenkins_user, jenkins_key)
 
 
 def verbose(message):

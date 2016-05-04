@@ -36,7 +36,7 @@ class Jenkins:
 
     jenkins_git_hub_url_property_name = "scm/userRemoteConfigs/hudson.plugins.git.UserRemoteConfig/url"
 
-    def __init__(self, host, user=os.environ["jenkins_user"], key=os.environ["jenkins_key"]):
+    def __init__(self, host, user, key):
         self.host = host
         self.auth = (user, key)
 
