@@ -19,9 +19,9 @@ This repo provides a script that allows to tag a git repository:
 }
 ```
 
-  - Replace <username> with your jenkins username.
-  - Replace <api-token> with the value obtained from Jenkins.
-  - Configure github and jenkins urls to the appropriate values.
+Replace ```<username>``` with your jenkins username.
+Replace ```<api-token>``` with the value obtained from Jenkins.
+Configure github and jenkins urls to the appropriate values.
 
 * In addition to that you need some python libraries: requests, pymongo and bottle. 
 ```
