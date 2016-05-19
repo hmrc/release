@@ -8,13 +8,20 @@ This repo provides a script that allows to tag a git repository:
 
 ##Prepare the environment
 
-* To enable scripts to interact with jenkins, define a 'jenkins_key' and 'jenkins_user' environment variable in your bashrc file. 
+* Set up your local configuration by creating a file ```~/.hmrc/release.conf``` which is a json formatted file that should look like this:
+
 ```
-export jenkins_user=<username>
-export jenkins_key=<api-token>
+{
+    "git":"git@<your_git-instance:your_repo>",
+    "jenkins":"https://<your-jenkins>",
+    "jenkins_user": "<username>",
+    "jenkins_key": "<api-token>"
+}
 ```
-Replace <username> with your jenkins username (no quotes)
-Replace <api-token> with the value obtained from Jenkins
+
+Replace ```<username>``` with your jenkins username.
+Replace ```<api-token>``` with the value obtained from Jenkins.
+Configure github and jenkins urls to the appropriate values.
 
 * In addition to that you need some python libraries: requests, pymongo and bottle. 
 ```
@@ -25,7 +32,6 @@ $ sudo pip install requests
 $ sudo pip install pymongo
 $ sudo pip install bottle
 ```
-* Configure github and jenkins urls in src/universal/conf/hosts.json
 
 ## Release
 * Tag the artefact: ```python release.py -v jenkins_job_name build_number```
