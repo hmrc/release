@@ -1,5 +1,4 @@
 {
-    "jenkhttp://example.com",
-    "nexhttp://example.com",
-    "http://example.com:hmrc"
+    "jenkins":"https://ci.example.com",
+    "git":"git@github.com:yourOrg"
 }
