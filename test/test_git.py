@@ -1,6 +1,7 @@
 import sys
-sys.path.append("../src/universal/bin")
 import os
+this_file = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(this_file, "../src/universal/bin"))
 import lib
 import shutil
 import unittest

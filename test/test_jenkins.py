@@ -1,6 +1,8 @@
 import sys
+import os
+this_file = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(this_file, "../src/universal/bin"))
 
-sys.path.append("../src/universal/bin")
 import unittest
 from jenkins import find_commit_id, is_build_green
 
