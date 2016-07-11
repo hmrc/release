@@ -1,5 +1,6 @@
-import sys
-sys.path.append("../src/universal/bin")
+import sys, os
+this_file = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(this_file, "../src/universal/bin"))
 import unittest
 from lib import call, read_user_preferred_version_with_input_function
 
