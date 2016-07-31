@@ -23,14 +23,11 @@ Replace ```<username>``` with your jenkins username.
 Replace ```<api-token>``` with the value obtained from Jenkins.
 Configure github and jenkins urls to the appropriate values.
 
-* In addition to that you need some python libraries: requests, pymongo and bottle. 
+* In addition to that you need some python libraries ([setup pip and virtualenv if needed](https://packaging.python.org/installing/#requirements-for-installing-packages))
 ```
-$ curl -O http://python-distribute.org/distribute_setup.py
-$ sudo python distribute_setup.py
-$ sudo easy_install pip
-$ sudo pip install requests
-$ sudo pip install pymongo
-$ sudo pip install bottle
+$ virtualenv virtual_release
+$ source virtual_release/bin/activate
+$ pip install -r requirements.txt
 ```
 
 ## Release
