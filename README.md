@@ -6,7 +6,7 @@ This repo provides a script that allows to tag a git repository:
 - Suggests you the new version
 - Tags the repository
 
-##Prepare the environment
+## Prepare the environment
 
 * Set up your local configuration by creating a file ```~/.hmrc/release.conf``` which is a json formatted file that should look like this:
 
