@@ -23,7 +23,7 @@ Replace ```<username>``` with your jenkins username.
 Replace ```<api-token>``` with the value obtained from Jenkins.
 Configure github and jenkins urls to the appropriate values.
 
-* In addition to that you need some python libraries ([setup pip and virtualenv if needed](https://packaging.python.org/installing/#requirements-for-installing-packages))
+* In addition to that you need some python 2 libraries ([setup pip and virtualenv if needed](https://packaging.python.org/installing/#requirements-for-installing-packages))
 ```
 $ virtualenv virtual_release
 $ source virtual_release/bin/activate
